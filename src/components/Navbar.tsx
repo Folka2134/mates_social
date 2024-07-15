@@ -1,9 +1,3 @@
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
 import Auth from "./Auth";
 
 const Navbar = () => {

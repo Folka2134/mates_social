@@ -1,7 +1,6 @@
-import { useAuth } from "@clerk/clerk-react";
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithCustomToken } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { Firestore, doc, getDoc, getFirestore } from "firebase/firestore";
 
 import admin from "firebase-admin";
