@@ -4,20 +4,14 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
+import Auth from "./Auth";
 
 const Navbar = () => {
   return (
     <div>
       <ul className="flex justify-between px-24">
         <span>LOGO</span>
-        <div className="flex gap-3">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
+        <Auth />
       </ul>
     </div>
   );
