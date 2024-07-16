@@ -54,8 +54,6 @@ export async function sendMessage(formValue: string) {
 
   const { uid, photoURL } = user;
 
-  console.log(photoURL);
-
   await addDoc(collection(db, "messages"), {
     text: formValue,
     createdAt: serverTimestamp(),

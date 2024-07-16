@@ -27,7 +27,6 @@ export default function Chat() {
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
-    console.log(formValue);
 
     if (import.meta.env.VITE_APP_USE_MOCK_DATA == "true") {
       mockMessages.push({
@@ -44,7 +43,7 @@ export default function Chat() {
 
   return (
     <>
-      <div>
+      <div className="flex h-96 flex-col justify-end overflow-scroll bg-purple-950">
         {messages &&
           messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg.data} />
