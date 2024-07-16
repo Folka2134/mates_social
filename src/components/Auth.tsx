@@ -1,15 +1,32 @@
-import { signInWithCustomToken } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "../lib/firebase/firebaseInit";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Auth() {
+  const [user] = useAuthState(auth);
+
+  return <div className="flex gap-3">{user ? <Signout /> : <SignIn />}</div>;
+}
+
+function SignIn() {
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+
   return (
-    <div className="flex gap-3">
-      {/* <SignedOut> */}
-      <button>Sign in</button>
-      {/* </SignedOut> */}
-      {/* <SignedIn>
-        <UserButton />
-      </SignedIn> */}
-    </div>
+    <button type="button" onClick={signInWithGoogle}>
+      Sign in With Google
+    </button>
+  );
+}
+
+function Signout() {
+  return (
+    auth.currentUser && (
+      <button type="button" onClick={() => signOut(auth)}>
+        Logout
+      </button>
+    )
   );
 }
