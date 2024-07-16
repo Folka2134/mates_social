@@ -19,7 +19,7 @@ export default function Chat() {
   return (
     <div>
       {messages &&
-        messages.map((msg, index) => <ChatMessage key={index} message={msg} />)}
+        messages.map((msg) => <ChatMessage key={msg.id} message={msg.data} />)}
     </div>
   );
 }

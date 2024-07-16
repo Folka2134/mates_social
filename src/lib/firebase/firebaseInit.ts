@@ -43,7 +43,10 @@ export const auth = getAuth(app);
 export async function getMessages(db: Firestore) {
   const messagesRef = collection(db, "messages");
   const querySnapshot = await getDocs(messagesRef);
-  return querySnapshot.docs.map((doc) => doc.data());
+
+  return querySnapshot.docs.map((doc) => {
+    return { id: doc.id, data: doc.data() };
+  });
 }
 
 // REQUEST EXAMPLE
