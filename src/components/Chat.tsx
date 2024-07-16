@@ -37,7 +37,9 @@ export default function Chat() {
           photoURL: "/path/to/default/photo.jpg",
         },
       });
-    } else sendMessage(formValue);
+    } else {
+      sendMessage(formValue);
+    }
     setFormValue("");
   };
 
