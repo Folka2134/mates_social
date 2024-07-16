@@ -5,24 +5,40 @@ import {
   auth,
   sendMessage,
 } from "../lib/firebase/firebaseInit";
+import { mockMessages } from "../constants/mockData";
+
+import { v4 as uuidv4 } from "uuid";
 
 export default function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
   const [formValue, setFormValue] = useState("");
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const msgs = await getMessages(db);
-      setMessages(msgs);
-    };
-    fetchMessages();
+    if (import.meta.env.VITE_APP_USE_MOCK_DATA == "true") {
+      setMessages(mockMessages);
+    } else {
+      const fetchMessages = async () => {
+        const msgs = await getMessages(db);
+        setMessages(msgs);
+      };
+      fetchMessages();
+    }
   });
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
     console.log(formValue);
 
-    sendMessage(formValue);
+    if (import.meta.env.VITE_APP_USE_MOCK_DATA == "true") {
+      mockMessages.push({
+        id: uuidv4(),
+        data: {
+          text: `${formValue}`,
+          uid: "user2",
+          photoURL: "/path/to/default/photo.jpg",
+        },
+      });
+    } else sendMessage(formValue);
     setFormValue("");
   };
 
