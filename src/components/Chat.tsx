@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import { db, getMessages } from "../lib/firebase/firebaseInit";
+import {
+  db,
+  getMessages,
+  auth,
+  sendMessage,
+} from "../lib/firebase/firebaseInit";
 
 export default function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
+  const [formValue, setFormValue] = useState("");
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -10,20 +16,47 @@ export default function Chat() {
       setMessages(msgs);
     };
     fetchMessages();
-  }, []);
+  });
 
-  console.log(messages);
+  const handleSendMessage = (e: any) => {
+    e.preventDefault();
+    console.log(formValue);
+
+    sendMessage(formValue);
+    setFormValue("");
+  };
 
   return (
-    <div>
-      {messages &&
-        messages.map((msg) => <ChatMessage key={msg.id} message={msg.data} />)}
-    </div>
+    <>
+      <div>
+        {messages &&
+          messages.map((msg) => (
+            <ChatMessage key={msg.id} message={msg.data} />
+          ))}
+      </div>
+
+      <form onSubmit={handleSendMessage}>
+        <input
+          className="text-black"
+          type="text"
+          value={formValue}
+          onChange={(e) => setFormValue(e.target.value)}
+        />
+        <button type="submit">Send</button>
+      </form>
+    </>
   );
 }
 
 function ChatMessage(props: any) {
-  const { text, uid } = props.message;
+  const { text, uid, photoURL } = props.message;
 
-  return <p>1: {text}</p>;
+  const messageClass = uid === auth.currentUser?.uid ? "sent" : "received";
+
+  return (
+    <div className={`message ${messageClass}`}>
+      <img src={photoURL} />
+      <p>{text}</p>
+    </div>
+  );
 }

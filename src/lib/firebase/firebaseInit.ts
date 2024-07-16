@@ -5,6 +5,8 @@ import {
   collection,
   getDocs,
   getFirestore,
+  serverTimestamp,
+  addDoc,
 } from "firebase/firestore";
 
 // const serviceAccount = import.meta.env.VITE_GOOGLE_APPLICATION_CREDENTIALS;
@@ -40,6 +42,25 @@ export async function getMessages(db: Firestore) {
 
   return querySnapshot.docs.map((doc) => {
     return { id: doc.id, data: doc.data() };
+  });
+}
+
+export async function sendMessage(formValue: string) {
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw Error("No logged in user");
+  }
+
+  const { uid, photoURL } = user;
+
+  console.log(photoURL);
+
+  await addDoc(collection(db, "messages"), {
+    text: formValue,
+    createdAt: serverTimestamp(),
+    uid,
+    photoURL,
   });
 }
 
