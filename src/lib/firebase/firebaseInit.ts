@@ -1,16 +1,10 @@
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
   Firestore,
   collection,
-  doc,
-  getDoc,
   getDocs,
   getFirestore,
-  limit,
-  orderBy,
-  query,
 } from "firebase/firestore";
 
 // const serviceAccount = import.meta.env.VITE_GOOGLE_APPLICATION_CREDENTIALS;

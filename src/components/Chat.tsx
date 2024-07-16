@@ -1,7 +1,5 @@
-import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db, getMessages } from "../lib/firebase/firebaseInit";
-import { query, orderBy, limit } from "firebase/firestore";
 
 export default function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
