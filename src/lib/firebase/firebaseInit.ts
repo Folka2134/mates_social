@@ -1,13 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {
-  Firestore,
-  collection,
-  getDocs,
-  getFirestore,
-  serverTimestamp,
-  addDoc,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 // const serviceAccount = import.meta.env.VITE_GOOGLE_APPLICATION_CREDENTIALS;
 const firebaseKey = import.meta.env.VITE_FIREBASE_API_KEY;
@@ -27,49 +20,3 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-
-// async function getFriends(db: Firestore) {}
-
-// async function getFriend(db: Firestore) {}
-
-// async function addFriend(db: Firestore) {}
-
-// async function removeFriend(db: Firestore) {}
-
-export async function getMessages(db: Firestore) {
-  const messagesRef = collection(db, "messages");
-  const querySnapshot = await getDocs(messagesRef);
-
-  return querySnapshot.docs.map((doc) => {
-    return { id: doc.id, data: doc.data() };
-  });
-}
-
-export async function sendMessage(formValue: string) {
-  const user = auth.currentUser;
-
-  if (!user) {
-    throw Error("No logged in user");
-  }
-
-  const { uid, photoURL } = user;
-
-  await addDoc(collection(db, "messages"), {
-    text: formValue,
-    createdAt: serverTimestamp(),
-    uid,
-    photoURL,
-  });
-}
-
-// REQUEST EXAMPLE
-// export const getFirestoreData = async () => {
-//   const docRef = doc(db, "example", "example-document");
-//   const docSnap = await getDoc(docRef);
-//   if (docSnap.exists()) {
-//     console.log("Document data:", docSnap.data());
-//   } else {
-//     // docSnap.data() will be undefined in this case
-//     console.log("No such document!");
-//   }
-// };
