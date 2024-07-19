@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "../lib/firebase/firebaseInit";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase/firebaseInit";
 
 export default function Auth() {
   const [user] = useAuthState(auth);
