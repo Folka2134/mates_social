@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  db,
-  getMessages,
-  auth,
-  sendMessage,
-} from "../lib/firebase/firebaseInit";
+import { auth } from "../lib/firebase/firebaseInit";
 import { mockMessages } from "../constants/mockData";
 
 import { v4 as uuidv4 } from "uuid";
+import { getMessages, sendMessageGlobal } from "../lib/firebase/db";
 
 export default function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -18,7 +14,7 @@ export default function Chat() {
       setMessages(mockMessages);
     } else {
       const fetchMessages = async () => {
-        const msgs = await getMessages(db);
+        const msgs = await getMessages();
         setMessages(msgs);
       };
       fetchMessages();
@@ -38,7 +34,7 @@ export default function Chat() {
         },
       });
     } else {
-      sendMessage(formValue);
+      sendMessageGlobal(formValue);
     }
     setFormValue("");
   };
