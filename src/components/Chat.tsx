@@ -3,7 +3,7 @@ import { auth } from "../lib/firebase/firebaseInit";
 import { mockMessages } from "../constants/mockData";
 
 import { v4 as uuidv4 } from "uuid";
-import { getMessages, sendMessageGlobal } from "../lib/firebase/db";
+import { getMessages, sendMessageGlobal } from "../lib/firebase/actions";
 
 export default function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
