@@ -112,6 +112,7 @@ export async function sendMessageGlobal(formValue: string) {
 
     await addDoc(collection(db, "messages"), {
       text: formValue,
+      createdBy: uid,
       createdAt: serverTimestamp(),
       uid,
       photoURL,
