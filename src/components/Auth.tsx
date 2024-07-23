@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../lib/firebase/firebaseInit";
+import { createUser } from "../lib/firebase/actions";
 
 export default function Auth() {
   const [user] = useAuthState(auth);
@@ -9,9 +10,19 @@ export default function Auth() {
 }
 
 function SignIn() {
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      if (user) {
+        await createUser(user.uid, user);
+      }
+    } catch (error) {
+      throw new Error(`Unable to signin.\nError: ${error}`);
+    }
   };
 
   return (

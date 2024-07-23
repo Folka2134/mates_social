@@ -1,3 +1,4 @@
+import { User } from "../types";
 import { auth, db } from "./firebaseInit";
 
 import {
@@ -13,9 +14,19 @@ import {
   query,
 } from "firebase/firestore";
 
-export async function createUser(uid: string, data: any) {
+export async function createUser(uid: string, user: User) {
   try {
-    await setDoc(doc(db, "users", uid), { ...data });
+    const userRef = doc(db, "users", uid);
+    const docSnap = await getDoc(userRef);
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      });
+      console.log("User Created.", user);
+    }
   } catch (error) {
     throw new Error(`Unable to create user.\nError: ${error}`);
   }
